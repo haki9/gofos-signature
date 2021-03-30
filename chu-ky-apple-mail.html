@@ -1,0 +1,154 @@
+<html lang="vi-VN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chữ ký</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+
+<body class="theme-default">
+    <main class="container-fluid">
+
+        <div style="max-width: 500px; border: solid 1px; padding: 8px;">
+            <h1>Tạo chữ ký:</h1>
+            <br>
+
+            <div class="row" style="margin: 0;">
+                <div class="col-sm-3"><label for="fname">Tên:</label></div>
+                <div class="col-sm-9"><input style="width: 250px;" type="text" id="fname" name="fname">
+                    <select id="prefix">
+                        <option value="Mr" selected="selected">Mr</option>
+                        <option value="Ms">Ms</option>
+                    </select>
+                </div>
+            </div>
+            <br>
+
+            <div class="row" style="margin: 0;">
+                <div class="col-sm-3"><label for="position">Chức vụ:</label></div>
+                <div class="col-sm-9"><input style="width: 250px;" type="text" id="position" name="position"></div>
+            </div>
+            <br>
+
+            <div class="row" style="margin: 0;">
+                <div class="col-sm-3"><label for="email">Email:</label></div>
+                <div class="col-sm-9"><input type="text" id="email" name="email" style="width: 250px;"></div>
+            </div>
+            <br>
+
+            <div class="row" style="margin: 0;">
+                <div class="col-sm-3"><label for="phone">Phone:</label></div>
+                <div class="col-sm-9"><input type="text" id="phone" name="phone" style="width: 250px;"></div>
+            </div>
+            <br>
+
+            <div style="display:flex; align-items: center; justify-content: center;">
+                <button style="width: 100px; margin-right: 20px;" type="button" class="btn btn-primary"
+                    onclick="updateSignature()">Update</button>
+                <button style="width: 100px;" type="button" class="btn btn-secondary" id="copy-button"
+                    data-clipboard-target="#signature">Copy</button>
+            </div>
+
+        </div>
+        <br><br>
+
+        <div class="shadow bg-white rounded" style="max-width: 600px; padding: 16px;">
+            <div id="signature" style="max-width: 600px;">
+                <p style="
+               font-size: 13px;
+               font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+               /* border-bottom: 2px dashed #000; */
+               display: table;
+               padding-bottom: 15px;
+               background-image: linear-gradient(to right, black 60%, rgba(255,255,255,0) 0%);
+               background-position: bottom;
+               background-size: 7px 1px;
+               background-repeat: repeat-x;
+               margin-bottom: 5px;
+               ">Thanks and Best Regards,</p>
+                <div class="user">
+                    <p style="
+                  margin-bottom: 0px;
+                  margin-top: 0px;
+                  "><span id="lname" style="
+                  font-size: 13px;
+                  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                  font-weight: bold;
+                  color: #276568;
+                  ">My Võ</span> <span id="lprefix" style="
+                  font-family: Arial;
+                  font-size: 11px;
+                  color: #276568;
+                  ">(Ms)</span></p>
+                    <p id="lpos" style="
+                  margin-top: 0;
+                  color: #276568;
+                  font-size: 11px;
+                  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                  ">Designer</p>
+
+                    <p style="
+                                                      font-size: 11px;
+                                                      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                                                                        margin-bottom: 0px;
+                                                      ">Tel: <a id="lphone"
+                            style="text-decoration: none;color: #545454;" href="tel:+84914 602 888">0914
+                            602 888</a>
+                    </p>
+                    <p style="
+                  font-size: 11px;
+                  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                  margin-top: 0;
+                  ">Email: <a id="lemail" style="text-decoration: none;color: #545454;" href="mailto:myvo@gofos.vn"
+                            target="_top">myvo@gofos.vn</a>
+                    </p>
+                </div>
+                <div style="margin-top: 20px;"><img style="max-width: 100%" src="./img-company.png"></div>
+            </div>
+        </div>
+
+    </main>
+
+
+    <script>
+
+        function updateSignature() {
+            document.getElementById("lname").innerHTML = document.getElementById('fname').value;
+            document.getElementById("lpos").innerHTML = document.getElementById('position').value;
+
+            var e = document.getElementById("prefix");
+            var strPrefix = e.options[e.selectedIndex].value;
+            document.getElementById("lprefix").innerHTML = `(${strPrefix})`;
+
+            var email = document.getElementById('email').value;
+            document.getElementById("lemail").innerHTML = email;
+            document.getElementById("lemail").href = "mailto:" + email;
+
+            var phone = document.getElementById('phone').value;
+            document.getElementById("lphone").innerHTML = phone;
+            document.getElementById("lphone").href = "tel:" + phone;
+        }
+
+        $(function () {
+            new Clipboard('#copy-button');
+        });
+
+    </script>
+
+
+
+
+
+</body>
+
+</html>
